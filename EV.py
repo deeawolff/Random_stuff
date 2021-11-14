@@ -1,6 +1,5 @@
 import random
 import string
-import time
 
 goal = "When shall we three meet again? In thunder, lightning, or in rain?"
 
@@ -22,6 +21,8 @@ for i in range(100):
 def fitness():
     global fitness_scores
     fitness_scores = []
+    global mateing_pool
+    mateing_pool = []
 
     for i in range(len(population)):
         score = 0
@@ -56,13 +57,13 @@ def reproduce():
 
         if choice == 0:
 
-            if random.randint(0, 30) == 0:
+            if random.randint(0, 10) == 0:
                 baby = baby + random.choice(string.ascii_letters)
             else:
                 baby = baby + thing1[0][i]
 
         elif choice == 1:
-            if random.randint(0, 30) == 0:
+            if random.randint(0, 10) == 0:
                 baby = baby + random.choice(string.ascii_letters)
             else:
                 baby = baby + thing2[0][i]
