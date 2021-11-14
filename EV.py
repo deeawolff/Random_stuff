@@ -2,7 +2,7 @@ import random
 import string
 import time
 
-goal = "asahfihaioda"
+goal = "When shall we three meet again? In thunder, lightning, or in rain?"
 
 population = []
 
@@ -10,8 +10,13 @@ mateing_pool = []
 
 fitness_scores = []
 
+alphabet1 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ,"
+
 for i in range(100):
-    population.append("".join(random.choices(string.ascii_letters, k=len(goal))))
+    E = ""
+    for x in range(len(goal)):
+        E += random.choice(alphabet1)
+    population.append(E)
 
 
 def fitness():
@@ -31,10 +36,10 @@ def fitness():
 
 
 def reproduce():
+    randomchoice = []
     thing1 = random.choice(mateing_pool)
 
     thing2 = random.choice(mateing_pool)
-
 
     randomchoice = [0, 1]
 
@@ -51,13 +56,13 @@ def reproduce():
 
         if choice == 0:
 
-            if random.randint(0, 20) == 0:
+            if random.randint(0, 30) == 0:
                 baby = baby + random.choice(string.ascii_letters)
             else:
                 baby = baby + thing1[0][i]
 
         elif choice == 1:
-            if random.randint(0, 20) == 0:
+            if random.randint(0, 30) == 0:
                 baby = baby + random.choice(string.ascii_letters)
             else:
                 baby = baby + thing2[0][i]
@@ -66,8 +71,6 @@ def reproduce():
 
     del population[lowest[1]]
     population.append(baby)
-
-
 
 
 def find_lowest_fitness_score():
@@ -86,11 +89,18 @@ def is_complete():
     return False
 
 
+def is_all_complete():
+    bool = False
+    for i in range(len(population)):
+        if population[i] == goal:
+            bool = True
+    return bool
+
+
 fitness()
 
-
 generations = 0
-while not is_complete():
+while not is_all_complete():
     for i in range(50):
         fitness()
         reproduce()
