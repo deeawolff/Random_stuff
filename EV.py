@@ -2,7 +2,7 @@ import random
 import string
 import time
 
-goal = "DouglasWolff"
+goal = "asahfihaioda"
 
 population = []
 
