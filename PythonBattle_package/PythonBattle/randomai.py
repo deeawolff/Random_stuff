@@ -27,7 +27,8 @@ self.robot.attack() - Attacks the thing in front of it.
 self.robot.turnRight()
 self.robot.turnLeft()
 self.robot.goForth() - Move forward 1 space.
-self.robot.attack() - Attack the thing in front.
+self.robot.attack()
+ - Attack the thing in front.
 self.robot.goBack() - Move back 1 space.
 
 
@@ -48,20 +49,27 @@ self.robot.calculateCoordinates(direction, distance, position)... read the book 
 
 import random
 
+
 class AI:
     def __init__(self):
-        #Anything the AI needs to do before the game starts goes here.
-        
-        self.currentlyDoing = 'stuff' # I can set my own variable here. Delete this if you like.
-        
-        pass #This goes here as a placeholder. You need it if there's nothing else here. It doesn't do anything :)
+
+        self.currentlyDoing = 'stuff'
+        self.enemy_position = [0, 0]
+
+        pass
+
     def turn(self):
-        if self.robot.lookInFront() == "bot":   #If the square in front is a bot, then attack it.
+        if self.robot.lookInFront() == "bot":
             self.robot.attack()
-            return  # Do this whenever you've finished your code.
+            return
+
+        if self.robot.locateEnemy()[0] > self.robot.position[0]:
+            if self.robot.rotation == 1:
+                self.robot.goForth()
+
+
         else:
-            random.choice([self.robot.turnLeft,self.robot.turnRight,self.robot.goForth,self.robot.goForth])() #Currently it's got a list of choices
-            #and picks a random one out of them.
-            #Delete this line and add as many of your own as you like!
-            
-            return  # And here as well because we've already taken the action.
+            random.choice([self.robot.turnLeft, self.robot.turnRight, self.robot.goForth, self.robot.goForth,
+                           self.robot.goBack()])()
+
+            return
