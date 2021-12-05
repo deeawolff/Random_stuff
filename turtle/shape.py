@@ -4,8 +4,11 @@ color('blue', 'purple')
 begin_fill()
 speed(100)
 sides = int(input("input sides: "))
+x = int(input("input angle multipier"))
+
 for i in range(sides):
+    turning = 360 / sides
     forward(50)
-    left(360 / sides)
-end_fill()
+    left(turning * x)
+
 done()
