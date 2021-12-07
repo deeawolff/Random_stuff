@@ -11,4 +11,5 @@ for i in range(sides):
     forward(50)
     left(turning * x)
 
+end_fill()
 done()
