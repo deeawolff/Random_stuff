@@ -15,14 +15,26 @@ tim.speed(0)
 
 def my_tree(tree, recursion_number):
     output = ""
+    X_1_11random = []
+    for i in range(40):
+        X_1_11random.append("1")
+    for i in range(50):
+        X_1_11random.append("11")
+    for i in range(10):
+        X_1_11random.append("X")
+
     for i in range(len(tree)):
         # print(f"tree[i] = {tree[i]}")
         if tree[i] == "1":
 
-            output = output + random.choice(["1", "11"])
+            output = output + random.choice(X_1_11random)
 
         elif tree[i] == "0":
             output += random.choice(["1[0]0", "1[0]0"])  # ,"1[00]0","1[0]00", "10[0]"
+
+        elif tree[i] == "X":
+            output += random.choice(["[0|"])
+
 
         else:
             output += tree[i]
@@ -47,6 +59,11 @@ def draw_my_tree(recursion_depth, tim_distance):
             tim.forward(tim_distance)
             tim.color("blue")
 
+        elif path[i] == "X":
+            tim.color("red")
+            tim.forward(tim_distance)
+            tim.color("blue")
+
         elif path[i] == "[":
             saved_states.append(get_turtle_state(tim))
             tim.left(random.choice([10, 10, 15, 15, 20, 20, 30, 35, 40]))
@@ -56,10 +73,14 @@ def draw_my_tree(recursion_depth, tim_distance):
             restore_turtle_state(tim, saved_states[-1])
             tim.pendown()
             del saved_states[-1]
-            tim.right(random.randint(10, 40))
+            tim.right(random.choice([10, 10, 10, 10, 10, 20, 20, 20, 30, 35, 40]))
 
 
-#        elif path[i] == "]":
+        elif path[i] == "|":
+            tim.penup()
+            restore_turtle_state(tim, saved_states[-1])
+            tim.pendown()
+            del saved_states[-1]
 
 
 def fractal_tree(tree, recursion_number):
@@ -124,7 +145,7 @@ tim.penup()
 tim.backward(400)
 tim.pendown()
 print(fractal_tree("0", 3))
-draw_my_tree(7, 8)
+draw_my_tree(11, 3)
 wn.update()
 print("E")
 
