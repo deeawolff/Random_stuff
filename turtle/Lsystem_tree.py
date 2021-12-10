@@ -33,7 +33,7 @@ def my_tree(tree, recursion_number):
             output += random.choice(["1[0]0", "1[0]0"])  # ,"1[00]0","1[0]00", "10[0]"
 
         elif tree[i] == "X":
-            output += random.choice(["[0|"])
+            output += random.choice(["^0|"])
 
 
         else:
@@ -81,6 +81,10 @@ def draw_my_tree(recursion_depth, tim_distance):
             restore_turtle_state(tim, saved_states[-1])
             tim.pendown()
             del saved_states[-1]
+
+        elif path[i] == "^":
+            saved_states.append(get_turtle_state(tim))
+            tim.left(random.randint(-40, 40))
 
 
 def fractal_tree(tree, recursion_number):
@@ -144,8 +148,8 @@ tim.left(90)
 tim.penup()
 tim.backward(400)
 tim.pendown()
-print(fractal_tree("0", 3))
-draw_my_tree(11, 3)
+print(fractal_tree("0", 5))
+draw_my_tree(12, 3)
 wn.update()
 print("E")
 
