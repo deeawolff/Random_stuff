@@ -76,3 +76,5 @@ draw_fractal_tree(7, 3)
 wn.update()
 
 turtle.done()
+
+# don't edit this file anymore, moved to its own repository
