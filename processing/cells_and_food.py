@@ -28,12 +28,13 @@ def find_a_from_hyoptenuse_angel(hypotenuse, angle):
     return hypotenuse * math.cos(angle)
 
 
-def find_difference_between_two_coordinates(x1, y1, x2, y2):
-    return [x1 - x2, y1 - y2]
+def find_difference_between_two_coordinates(p1, p2):
+    return [p1[0] - p2[0], p1[1] - p2[1]]
 
 
-# def find_closest_food(cell_position):
-#    for i in range(len(foods))
+def find_closest_food(cell_position):
+    for i in range(len(foods)):
+        find_difference_between_two_coordinates()
 
 
 class Cell:
@@ -66,9 +67,7 @@ class Cell:
         app.ellipse(self.position[0], self.position[1], self.food, self.food)
 
     def move_towards_food(self):
-        difference_between_coordinates = find_difference_between_two_coordinates(self.position[0], self.position[1],
-                                                                                 self.food_position[0],
-                                                                                 self.food_position[1])
+        difference_between_coordinates = find_difference_between_two_coordinates(self.position, self.food_position)
         angle = find_angle_from_oa(difference_between_coordinates)
 
         change_in_x = find_a_from_hyoptenuse_angel(self.movement, angle) + random.randint(-2, 2)
