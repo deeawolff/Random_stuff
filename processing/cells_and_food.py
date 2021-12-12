@@ -32,9 +32,19 @@ def find_difference_between_two_coordinates(p1, p2):
     return [p1[0] - p2[0], p1[1] - p2[1]]
 
 
-def find_closest_food(cell_position):
-    for i in range(len(foods)):
-        find_difference_between_two_coordinates()
+def find_closest_food_position(cell_position):
+    distances = []
+    for x in range(len(foods)):
+        holding_array = find_difference_between_two_coordinates(cell_position, foods[x].position)
+        distances.append([holding_array[0] + holding_array[1], x])
+
+    for x in range(len(distances) - 1):
+        if distances[-1][0] > distances[-2][0]:
+            del distances[-2]
+        elif distances[-2][0] > distances[-1][0]:
+            del distances[-1]
+
+    return distances[0][1]
 
 
 class Cell:
@@ -91,7 +101,7 @@ class Cell:
                         self.eating = True
 
     def find_new_food(self):
-        self.this_cells_food = foods[random.randint(0, len(foods) - 1)]
+        self.this_cells_food = foods[find_closest_food_position(self.position)]
         self.food_position = self.this_cells_food.return_position()
 
     def try_and_divide(self):
