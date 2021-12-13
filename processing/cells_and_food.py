@@ -101,12 +101,12 @@ class Cell:
 
     def try_and_divide(self):
         if self.size >= 10:
-            if not random.randint(0, 10):
-                cells.append(
-                    Cell(i, 5, self.position, [random.randint(0, 254), random.randint(0, 254), random.randint(0, 254)],
-                         self.cell_type))
-            else:
-                cells.append(Cell(i, 5, self.position, self.colour, self.cell_type))
+            # if not random.randint(0, 10):
+            #    cells.append(
+            #       Cell(i, 5, self.position, [random.randint(0, 254), random.randint(0, 254), random.randint(0, 254)],
+            #             self.cell_type))
+            # else:
+            cells.append(Cell(i, 5, self.position, self.colour, self.cell_type))
             self.size -= 5
 
     def see_if_dead(self):
