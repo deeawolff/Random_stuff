@@ -31,6 +31,7 @@ def find_a_from_hyoptenuse_angel(hypotenuse, angle):
 def find_difference_between_two_coordinates(p1, p2):
     return [p1[0] - p2[0], p1[1] - p2[1]]
 
+
 def are_objects_touching_each_other(p1, p2, p1size, p2size):
     if p1[0] + p1size > p2[0] - p2size:
         if p1[0] - p1size < p2[0] + p2size:
@@ -38,8 +39,9 @@ def are_objects_touching_each_other(p1, p2, p1size, p2size):
                 if p1[1] - p1size < p2[1] + p2size:
                     return True
 
+
 class Cell:
-    def __init__(self, number, food, position, colour):
+    def __init__(self, number, food, position, colour, cell_type):
         self.number = number
         self.position = position
         self.movement = 6
@@ -50,6 +52,7 @@ class Cell:
         self.ready_for_deletion = False
         self.eating = False
         self.cells_touching = []
+        self.cell_type = cell_type
 
     def update(self):
 
@@ -60,7 +63,7 @@ class Cell:
         self.try_and_eat()
         self.try_and_divide()
         self.see_if_dead()
-        if self.touching_other_cell():
+        if self.touching_other_cell() and self.cell_type == "sharer":
             self.try_share_food()
 
         if self.this_cells_food.size <= 1:
@@ -99,9 +102,10 @@ class Cell:
         if self.size >= 10:
             if not random.randint(0, 10):
                 cells.append(
-                    Cell(i, 5, self.position, [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]))
+                    Cell(i, 5, self.position, [random.randint(0, 254), random.randint(0, 254), random.randint(0, 254)],
+                         self.cell_type))
             else:
-                cells.append(Cell(i, 5, self.position, self.colour))
+                cells.append(Cell(i, 5, self.position, self.colour, self.cell_type))
             self.size -= 5
 
     def see_if_dead(self):
@@ -121,9 +125,11 @@ class Cell:
 
     def try_share_food(self):
         for x in range(len(self.cells_touching)):
-            if self.size > self.cells_touching[x].size:
-                self.size -= 1
-                self.cells_touching[x].size += 1
+            if self.cells_touching[x].colour == self.colour:
+                if self.size > self.cells_touching[x].size:
+                    self.size -= 1
+                    self.cells_touching[x].size += 1
+
 
 class Food:
     def __init__(self, number):
@@ -152,9 +158,14 @@ class Food:
 for i in range(6):
     foods.append(Food(i))
 
-for i in range(10):
+for i in range(5):
     cells.append(Cell(i, 5, [random.randint(1, screen_size[0]), random.randint(1, screen_size[1])],
-                      [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]))
+                      [0, 255, 0],
+                      "sharer"))  # [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+
+for i in range(5):
+    cells.append(Cell(i, 5, [random.randint(1, screen_size[0]), random.randint(1, screen_size[1])],
+                      [255, 0, 0], "loner"))  # [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
 
 while True:
     app.background(0, 0, 0)  # set background:  red, green, blue
