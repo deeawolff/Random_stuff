@@ -2,6 +2,7 @@ import time
 import math
 from processing_py import *
 import random
+import matplotlib.pyplot as plt
 
 screen_size = [1200, 800]
 
@@ -167,23 +168,51 @@ for i in range(5):
     cells.append(Cell(i, 5, [random.randint(1, screen_size[0]), random.randint(1, screen_size[1])],
                       [255, 0, 0], "loner"))  # [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
 
-while True:
-    app.background(0, 0, 0)  # set background:  red, green, blue
-    app.fill(255, 255, 0)  # set color for objects: red, green, blue
-    cells_deleted_this_time_round = 0
-    for i in range(len(cells)):
-        if cells[i - cells_deleted_this_time_round].ready_for_deletion:
-            del cells[i - cells_deleted_this_time_round]
-            cells_deleted_this_time_round += 1
-        else:
-            cells[i - cells_deleted_this_time_round].update()
+sharer_population = []
+loner_popuation = []
+other_cells_population = []
 
-    for i in range(len(foods)):
-        if foods[i].ready_for_deletion:
-            del foods[i]
-            foods.append(Food(len(foods) - 1))
-        else:
-            foods[i].update()
+try:
+    while True:
+        app.background(0, 0, 0)  # set background:  red, green, blue
+        app.fill(255, 255, 0)  # set color for objects: red, green, blue
+        cells_deleted_this_time_round = 0
+        sharer_number = 0
+        loner_number = 0
+        random_other_cells = 0
+        for i in range(len(cells)):
 
-    print(len(cells))
-    app.redraw()  # refresh the window
+            if cells[i - cells_deleted_this_time_round].ready_for_deletion:
+                del cells[i - cells_deleted_this_time_round]
+                cells_deleted_this_time_round += 1
+            else:
+                cells[i - cells_deleted_this_time_round].update()
+
+            if cells[i - cells_deleted_this_time_round].cell_type == "sharer":
+                sharer_number += 1
+            elif cells[i - cells_deleted_this_time_round].cell_type == "loner":
+                loner_number += 1
+            else:
+                random_other_cells += 1
+
+        for i in range(len(foods)):
+            if foods[i].ready_for_deletion:
+                del foods[i]
+                foods.append(Food(len(foods) - 1))
+            else:
+                foods[i].update()
+
+        sharer_population.append(sharer_number)
+        loner_popuation.append(loner_number)
+        other_cells_population.append(random_other_cells)
+        app.redraw()  # refresh the window
+
+
+except KeyboardInterrupt:
+    x = []
+    for i in range(len(sharer_population)):
+        x.append(i)
+
+y = sharer_population
+
+plt.plot(x, y)
