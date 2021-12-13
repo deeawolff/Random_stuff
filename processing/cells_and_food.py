@@ -60,8 +60,8 @@ class Cell:
         self.try_and_eat()
         self.try_and_divide()
         self.see_if_dead()
-        # if self.touching_other_cell():
-        #     self.try_share_food()
+        if self.touching_other_cell():
+            self.try_share_food()
 
         if self.this_cells_food.size <= 1:
             self.eating = False
@@ -74,8 +74,8 @@ class Cell:
         difference_between_coordinates = find_difference_between_two_coordinates(self.position, self.food_position)
         angle = find_angle_from_oa(difference_between_coordinates)
 
-        change_in_x = find_a_from_hyoptenuse_angel(self.movement, angle) + random.randint(-2, 2)
-        change_in_y = find_o_from_hypotenuse_angle(self.movement, angle) + random.randint(-2, 2)
+        change_in_x = find_a_from_hyoptenuse_angel(self.movement, angle)  # + random.randint(-2, 2)
+        change_in_y = find_o_from_hypotenuse_angle(self.movement, angle)  # + random.randint(-2, 2)
 
         if self.position[0] < self.food_position[0]:
             self.position = [self.position[0] + change_in_x, self.position[1] + change_in_y]
@@ -109,17 +109,21 @@ class Cell:
             self.ready_for_deletion = True
 
     def touching_other_cell(self):
+        self.cells_touching = []
+        will_return = False
         for x in range(len(cells)):
             if are_objects_touching_each_other(self.position, cells[x].position, self.size,
                                                cells[x].this_cells_food.size):
-                self.cells_touching.append(cells[i])
-                return True
-        self.cells_touching = []
-        return False
+                self.cells_touching.append(cells[x])
+                will_return = True
 
-    # def try_share_food(self):
-    #     for x in range(len(self.cells_touching)):
-    #         if
+        return will_return
+
+    def try_share_food(self):
+        for x in range(len(self.cells_touching)):
+            if self.size > self.cells_touching[x].size:
+                self.size -= 1
+                self.cells_touching[x].size += 1
 
 class Food:
     def __init__(self, number):
