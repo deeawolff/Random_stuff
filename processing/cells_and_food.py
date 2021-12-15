@@ -42,6 +42,12 @@ def are_objects_touching_each_other(p1, p2, p1size, p2size):
                     return True
 
 
+#
+# def find_length_of_a_line(coords1, coords2):
+#     difference = []
+#     if coords1[0] - coords2[0]:
+
+
 class Cell:
     def __init__(self, number, food, position, colour, cell_type):
         self.number = number
@@ -101,7 +107,7 @@ class Cell:
         self.food_position = self.this_cells_food.return_position()
 
     def try_and_divide(self):
-        if self.size >= 10:
+        if self.size >= 20:
             # if not random.randint(0, 10):
             #    cells.append(
             #       Cell(i, 5, self.position, [random.randint(0, 254), random.randint(0, 254), random.randint(0, 254)],
@@ -217,7 +223,10 @@ except KeyboardInterrupt:
     print(x)
 
     print("E")
-    y = sharer_population
+    y1 = sharer_population
     print("E")
-    plt.plot([1, 2, 3], [1, 3, 2])
+    plt.plot(x, y1)
+    y2 = loner_popuation
+    plt.plot(x, y2)
+    plt.show()
     print("E")
