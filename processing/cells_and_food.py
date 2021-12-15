@@ -42,10 +42,17 @@ def are_objects_touching_each_other(p1, p2, p1size, p2size):
                     return True
 
 
-#
-# def find_length_of_a_line(coords1, coords2):
-#     difference = []
-#     if coords1[0] - coords2[0]:
+def find_length_of_a_line(coords1, coords2):
+    difference = []
+    if coords1[0] > coords2[0]:
+        difference[0] = coords1 - coords2
+    else:
+        difference[0] = coords2 - coords1
+
+    if coords1[1] > coords2[1]:
+        difference[1] = coords1 - coords2
+    else:
+        difference[1] = coords2 - coords1
 
 
 class Cell:
@@ -113,8 +120,8 @@ class Cell:
             #       Cell(i, 5, self.position, [random.randint(0, 254), random.randint(0, 254), random.randint(0, 254)],
             #             self.cell_type))
             # else:
-            cells.append(Cell(i, 5, self.position, self.colour, self.cell_type))
-            self.size -= 5
+            cells.append(Cell(i, self.size / 2, self.position, self.colour, self.cell_type))
+            self.size -= self.size / 2
 
     def see_if_dead(self):
         if self.size <= 1:
