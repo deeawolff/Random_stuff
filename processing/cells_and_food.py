@@ -3,6 +3,7 @@ import math
 from processing_py import *
 import random
 import matplotlib.pyplot as plt
+import keyboard
 
 screen_size = [1200, 800]
 
@@ -156,7 +157,7 @@ class Food:
             self.ready_for_deletion = True
 
 
-for i in range(6):
+for i in range(8):
     foods.append(Food(i))
 
 for i in range(5):
@@ -207,12 +208,16 @@ try:
         other_cells_population.append(random_other_cells)
         app.redraw()  # refresh the window
 
+        # if keyboard.is_pressed("e"):
+        #     raise Exception()
 
 except KeyboardInterrupt:
-    x = []
-    for i in range(len(sharer_population)):
-        x.append(i)
+    print("E")
+    x = range(len(sharer_population))
+    print(x)
 
-y = sharer_population
-
-plt.plot(x, y)
+    print("E")
+    y = sharer_population
+    print("E")
+    plt.plot([1, 2, 3], [1, 3, 2])
+    print("E")
