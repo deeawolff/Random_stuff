@@ -11,8 +11,6 @@ app = App(screen_size[0], screen_size[1])
 
 cells = []
 
-foods = []
-
 
 def find_angle_from_oa(distances):
     tan_angle = 0.000000001
@@ -108,10 +106,15 @@ class Cell:
             self.this_cells_food.get_eaten()
             self.size += 0.2
             self.eating = True
+        else:
+            self.eating = False
 
     def find_new_food(self):
-        self.this_cells_food = foods[random.randint(0, len(foods) - 1)]
-        self.food_position = self.this_cells_food.return_position()
+        if self.cell_type == "eater":
+            self.this_cells_food = cells[random.randint(0, len(cells) - 1)]
+        else:
+            self.this_cells_food = foods[random.randint(0, len(foods) - 1)]
+        self.food_position = self.this_cells_food.position
 
     def try_and_divide(self):
         if self.size >= 20:
@@ -130,10 +133,10 @@ class Cell:
     def touching_other_cell(self):
         self.cells_touching = []
         will_return = False
-        for x in range(len(cells)):
-            if are_objects_touching_each_other(self.position, cells[x].position, self.size,
-                                               cells[x].this_cells_food.size):
-                self.cells_touching.append(cells[x])
+        for e in range(len(cells)):
+            if are_objects_touching_each_other(self.position, cells[e].position, self.size,
+                                               cells[e].this_cells_food.size):
+                self.cells_touching.append(cells[e])
                 will_return = True
 
         return will_return
@@ -144,6 +147,9 @@ class Cell:
                 if self.size > self.cells_touching[x].size:
                     self.size -= 1
                     self.cells_touching[x].size += 1
+
+    def get_eaten(self):
+        self.ready_for_deletion = True
 
 
 class Food:
@@ -170,17 +176,18 @@ class Food:
             self.ready_for_deletion = True
 
 
-for i in range(8):
-    foods.append(Food(i))
+foods = [Food(i) for i in range(5)]
 
-for i in range(5):
-    cells.append(Cell(i, 5, [random.randint(1, screen_size[0]), random.randint(1, screen_size[1])],
-                      [0, 255, 0],
-                      "sharer"))  # [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+sharers = [Cell(i, 5, [random.randint(1, screen_size[0]), random.randint(1, screen_size[1])], [0, 255, 0], "sharer") for
+           i in range(3)]
 
-for i in range(5):
-    cells.append(Cell(i, 5, [random.randint(1, screen_size[0]), random.randint(1, screen_size[1])],
-                      [255, 0, 0], "loner"))  # [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+loners = [Cell(i, 5, [random.randint(1, screen_size[0]), random.randint(1, screen_size[1])], [0, 0, 255], "loner") for i
+          in range(3)]
+
+eaters = [Cell(i, 5, [random.randint(1, screen_size[0]), random.randint(1, screen_size[1])], [255, 0, 0], "eater") for i
+          in range(3)]
+
+cells = sharers + loners + eaters
 
 sharer_population = []
 loner_popuation = []
