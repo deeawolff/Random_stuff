@@ -59,13 +59,17 @@ class Cell:
         self.position = position
         self.movement = 6
         self.colour = colour
-        self.this_cells_food = foods[random.randint(0, 2)]
-        self.food_position = self.this_cells_food.return_position()
+        if cell_type == "eater":
+            self.this_cells_food = cells[random.randint(0, len(cells) - 1)]
+        else:
+            self.this_cells_food = foods[random.randint(0, len(foods) - 1)]
+        self.food_position = self.this_cells_food.position
         self.size = food
         self.ready_for_deletion = False
         self.eating = False
         self.cells_touching = []
         self.cell_type = cell_type
+        self.has_food = False
 
     def update(self):
 
@@ -80,6 +84,10 @@ class Cell:
             self.try_share_food()
 
         if self.this_cells_food.size <= 1:
+            self.eating = False
+            self.find_new_food()
+
+        if self.is_food_being_deleted():
             self.eating = False
             self.find_new_food()
 
@@ -106,8 +114,6 @@ class Cell:
             self.this_cells_food.get_eaten()
             self.size += 0.2
             self.eating = True
-        else:
-            self.eating = False
 
     def find_new_food(self):
         if self.cell_type == "eater":
@@ -151,6 +157,9 @@ class Cell:
     def get_eaten(self):
         self.ready_for_deletion = True
 
+    def is_food_being_deleted(self):
+        return self.this_cells_food.ready_for_deletion
+
 
 class Food:
     def __init__(self, number):
@@ -176,18 +185,22 @@ class Food:
             self.ready_for_deletion = True
 
 
-foods = [Food(i) for i in range(5)]
+foods = [Food(i) for i in range(6)]
 
 sharers = [Cell(i, 5, [random.randint(1, screen_size[0]), random.randint(1, screen_size[1])], [0, 255, 0], "sharer") for
-           i in range(3)]
+           i in range(4)]
+
+cells += sharers
 
 loners = [Cell(i, 5, [random.randint(1, screen_size[0]), random.randint(1, screen_size[1])], [0, 0, 255], "loner") for i
-          in range(3)]
+          in range(4)]
+
+cells += loners
 
 eaters = [Cell(i, 5, [random.randint(1, screen_size[0]), random.randint(1, screen_size[1])], [255, 0, 0], "eater") for i
-          in range(3)]
+          in range(4)]
 
-cells = sharers + loners + eaters
+cells += eaters
 
 sharer_population = []
 loner_popuation = []
@@ -242,5 +255,7 @@ except KeyboardInterrupt:
     plt.plot(x, y1)
     y2 = loner_popuation
     plt.plot(x, y2)
+    y3 = other_cells_population
+    plt.plot(x, y3)
     plt.show()
     print("E")
