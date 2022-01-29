@@ -28,30 +28,36 @@ def find_a_from_hyoptenuse_angel(hypotenuse, angle):
     return hypotenuse * math.cos(angle)
 
 
+def find_hyp_from_oa(opposite, adjacent):
+    sqopposite = opposite * opposite
+    sqadjacent = adjacent * adjacent
+    sqhypotenuse = sqopposite + sqadjacent
+    return math.sqrt(sqhypotenuse)
+
+
 def find_difference_between_two_coordinates(p1, p2):
     return [p1[0] - p2[0], p1[1] - p2[1]]
 
 
 def are_objects_touching_each_other(p1, p2, p1size, p2size):
-    if p1[0] + p1size > p2[0] - p2size:
-        if p1[0] - p1size < p2[0] + p2size:
-            if p1[1] + p1size > p2[1] - p2size:
-                if p1[1] - p1size < p2[1] + p2size:
-                    return True
-
-
-def find_length_of_a_line(coords1, coords2):
-    difference = []
-    if coords1[0] > coords2[0]:
-        difference[0] = coords1 - coords2
+    if find_length_of_a_line(p1, p2) < p1size + p2size:
+        return True
     else:
-        difference[0] = coords2 - coords1
+        return False
 
-    if coords1[1] > coords2[1]:
-        difference[1] = coords1 - coords2
+
+def find_length_of_a_line(p1, p2):
+    if p1[0] > p2[0]:
+        length1 = p1[0] - p2[0]
     else:
-        difference[1] = coords2 - coords1
+        length1 = p2[0] - p1[0]
 
+    if p1[1] > p2[1]:
+        length2 = p1[1] - p2[1]
+    else:
+        length2 = p2[1] - p1[1]
+
+    return find_hyp_from_oa(length1, length2)
 
 class Cell:
     def __init__(self, number, food, position, colour, cell_type):
@@ -112,24 +118,30 @@ class Cell:
     def try_and_eat(self):
         if are_objects_touching_each_other(self.position, self.food_position, self.size, self.this_cells_food.size):
             self.this_cells_food.get_eaten()
-            self.size += 0.2
+            if self.cell_type == "eater":
+                self.size += self.this_cells_food.size
+                self.this_cells_food.size = 0
+                self.this_cells_food.ready_for_deletion = True
+            else:
+                self.size += 0.2
             self.eating = True
 
     def find_new_food(self):
         if self.cell_type == "eater":
             self.this_cells_food = cells[random.randint(0, len(cells) - 1)]
+            if self == self.this_cells_food:
+                self.find_new_food()
+
         else:
             self.this_cells_food = foods[random.randint(0, len(foods) - 1)]
-        self.food_position = self.this_cells_food.position
+        self.food_position = self.this_cells_food.return_position()
 
     def try_and_divide(self):
         if self.size >= 20:
-            # if not random.randint(0, 10):
-            #    cells.append(
-            #       Cell(i, 5, self.position, [random.randint(0, 254), random.randint(0, 254), random.randint(0, 254)],
-            #             self.cell_type))
-            # else:
-            cells.append(Cell(i, self.size / 2, self.position, self.colour, self.cell_type))
+            if not random.randint(0, 10):
+                cells.append(Cell(i, 5, self.position, [255, 0, 0], "eater"))
+            else:
+                cells.append(Cell(i, self.size / 2, self.position, self.colour, self.cell_type))
             self.size -= self.size / 2
 
     def see_if_dead(self):
@@ -159,6 +171,12 @@ class Cell:
 
     def is_food_being_deleted(self):
         return self.this_cells_food.ready_for_deletion
+
+    def return_position(self):
+        return self.position
+
+    def update_food_position(self):
+        self.food_position = self.this_cells_food.return_position()
 
 
 class Food:
@@ -243,6 +261,8 @@ try:
 
         # if keyboard.is_pressed("e"):
         #     raise Exception()
+        if len(cells) == 0:
+            raise Exception(KeyboardInterrupt)
 
 except KeyboardInterrupt:
     print("E")
