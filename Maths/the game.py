@@ -26,18 +26,20 @@ print(answers)
 class pointOnTheCircle:
     position = ()
 
-    def __init__(self, number_on_the_circle, _angle, size_of_the_screen):
-        self.position = (size_of_the_screen[0] / 2 + 100 * math.cos(math.radians(angle * number_on_the_circle)),
-                         size_of_the_screen[1] / 2 + 100 * math.sin(math.radians(angle * number_on_the_circle)))
+    def __init__(self, number_on_the_circle, _angle, size_of_the_screen, radius):
+        self.position = (size_of_the_screen[0] / 2 + radius * math.cos(math.radians(angle * number_on_the_circle)),
+                         size_of_the_screen[1] / 2 + radius * math.sin(math.radians(angle * number_on_the_circle)))
+        number_of_points_on_circle = 360 / _angle
+        circumference = math.pi * 2 * radius
+        self.size = number_of_points_on_circle / circumference
 
-        self.size = 360 / _angle
 
-
-points_on_the_circle = [pointOnTheCircle(i, angle, screen_size) for i in range(len(answers))]
+points_on_the_circle = [pointOnTheCircle(i, angle, screen_size, 100) for i in range(len(answers))]
 while (True):
     app.background(0, 0, 0)  # set background:  red, green, blue
     app.fill(255, 255, 0)  # set color for objects: red, green, blue
 
     for i in range(len(answers)):
-        app.ellipse(points_on_the_circle[i].position[0], points_on_the_circle[i].position[1], 50, 50)
+        app.ellipse(points_on_the_circle[i].position[0], points_on_the_circle[i].position[1],
+                    points_on_the_circle[i].size, points_on_the_circle[i].size)
     app.redraw()  # refresh the window
