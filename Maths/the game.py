@@ -1,5 +1,6 @@
-from processing_py import *
 import math
+
+from processing_py import *
 
 screen_size = (600, 400)
 app = App(screen_size[0], screen_size[1])  # create window: width, height
@@ -36,14 +37,17 @@ class pointOnTheCircle:
 
 points_on_the_circle = [pointOnTheCircle(i, angle, screen_size, 100) for i in range(len(answers))]
 while (True):
-    app.background(0, 0, 0)  # set background:  red, green, blue
+    app.background(255, 255, 255)  # set background:  red, green, blue
     app.fill(255, 255, 0)  # set color for objects: red, green, blue
 
     for i in range(len(answers)):
         app.ellipse(points_on_the_circle[i].position[0], points_on_the_circle[i].position[1],
                     points_on_the_circle[i].size, points_on_the_circle[i].size)
 
-    # for i in range(len(answers)):
-    #    for x in range(len)
+    for i in range(len(answers)):
+        for x in range(len(answers[i])):
+            app.line(points_on_the_circle[i].position[0], points_on_the_circle[i].position[1],
+                     points_on_the_circle[answers[i][x] - 1].position[0],
+                     points_on_the_circle[answers[i][x] - 1].position[1])
 
     app.redraw()  # refresh the window
