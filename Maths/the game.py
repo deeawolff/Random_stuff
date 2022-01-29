@@ -4,7 +4,7 @@ import math
 screen_size = (600, 400)
 app = App(screen_size[0], screen_size[1])  # create window: width, height
 
-answers = [[i + 1] for i in range(15)]
+answers = [[] for i in range(15)]
 
 angle = 360 / len(answers)
 print(f"angle = {angle} len(answers) = {len(answers)}  angle * len(answers) = {angle * len(answers)}")
@@ -31,7 +31,7 @@ class pointOnTheCircle:
                          size_of_the_screen[1] / 2 + radius * math.sin(math.radians(angle * number_on_the_circle)))
         number_of_points_on_circle = 360 / _angle
         circumference = math.pi * 2 * radius
-        self.size = number_of_points_on_circle / circumference
+        self.size = circumference / number_of_points_on_circle
 
 
 points_on_the_circle = [pointOnTheCircle(i, angle, screen_size, 100) for i in range(len(answers))]
@@ -42,4 +42,8 @@ while (True):
     for i in range(len(answers)):
         app.ellipse(points_on_the_circle[i].position[0], points_on_the_circle[i].position[1],
                     points_on_the_circle[i].size, points_on_the_circle[i].size)
+
+    # for i in range(len(answers)):
+    #    for x in range(len)
+
     app.redraw()  # refresh the window
