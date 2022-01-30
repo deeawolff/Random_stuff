@@ -5,16 +5,17 @@ from processing_py import *
 screen_size = (600, 400)
 app = App(screen_size[0], screen_size[1])  # create window: width, height
 
-answers = [[] for i in range(15)]
+answers = [[] for i in range(100)]
 
 angle = 360 / len(answers)
 print(f"angle = {angle} len(answers) = {len(answers)}  angle * len(answers) = {angle * len(answers)}")
 
-squares = [4, 9, 16, 25, 36]
+squares = [i * i for i in range(len(answers))]
+print(squares)
 
-for i in range(1, 16):
+for i in range(1, len(answers) + 1):
     for x in range(len(squares)):
-        for e in range(1, 16):
+        for e in range(1, len(answers) + 1):
             # print(f"e = {e} i = {i}")
             if e + i == squares[x]:
                 # print(f"added {e}")
@@ -37,14 +38,19 @@ class pointOnTheCircle:
 
 points_on_the_circle = [pointOnTheCircle(i, angle, screen_size, 100) for i in range(len(answers))]
 while (True):
+    app.textSize(22)
     app.background(255, 255, 255)  # set background:  red, green, blue
     app.fill(255, 255, 0)  # set color for objects: red, green, blue
 
     for i in range(len(answers)):
+        app.fill(255, 255, 0)
         app.ellipse(points_on_the_circle[i].position[0], points_on_the_circle[i].position[1],
                     points_on_the_circle[i].size, points_on_the_circle[i].size)
 
     for i in range(len(answers)):
+        app.fill(0, 0, 0)
+        app.text(i + 1, points_on_the_circle[i].position[0] - 11, points_on_the_circle[i].position[1] + 11)
+
         for x in range(len(answers[i])):
             app.line(points_on_the_circle[i].position[0], points_on_the_circle[i].position[1],
                      points_on_the_circle[answers[i][x] - 1].position[0],
