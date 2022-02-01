@@ -5,24 +5,20 @@ from processing_py import *
 screen_size = (1200, 800)
 app = App(screen_size[0], screen_size[1])  # create window: width, height
 
-answers = [[] for i in range(23)]
+answers = [[] for i in range(10)]
 
 angle = 360 / len(answers)
 # print(f"angle = {angle} len(answers) = {len(answers)}  angle * len(answers) = {angle * len(answers)}")
-n2plus1 = [2 * n + 1 for n in range(len(answers))]
 
-n2plus1_counter = 0
-while n2plus1[n2plus1_counter] < len(answers):
-    n2plus1_counter += 1
-
-print(n2plus1_counter)
-squares = [i * i for i in range(0, n2plus1_counter)]
+primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107,
+          109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229,
+          233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293]
 
 for i in range(1, len(answers) + 1):
-    for x in range(len(squares)):
+    for x in range(len(primes)):
         for e in range(1, len(answers) + 1):
             # print(f"e = {e} i = {i}")
-            if e + i == squares[x]:
+            if e + i == primes[x]:
                 # print(f"added {e}")
 
                 answers[i - 1].append(e)
