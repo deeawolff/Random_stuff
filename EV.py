@@ -1,7 +1,7 @@
 import random
 import string
 
-goal = "When shall we three meet again? In thunder, lightning, or in rain?"
+goal = "helloworld"
 
 population = []
 
@@ -9,7 +9,7 @@ mateing_pool = []
 
 fitness_scores = []
 
-alphabet1 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ,"
+alphabet1 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 for i in range(100):
     E = ""
