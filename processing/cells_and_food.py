@@ -1,3 +1,4 @@
+# BROKEN
 import time
 import math
 from processing_py import *
@@ -13,10 +14,11 @@ cells = []
 
 
 def find_angle_from_oa(distances):
-    tan_angle = 0.000000001
     if distances[0] != 0 and distances[1] != 0:
         tan_angle = distances[1] / distances[0]
-    angle = math.atan(tan_angle)
+        angle = math.atan(tan_angle)
+    else:
+        angle = 0
     return angle
 
 
